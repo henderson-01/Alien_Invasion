@@ -1,6 +1,6 @@
 # Alien Invasion Game
 
-This is a basic implementation of the classic game "Alien Invasion" using Python and Pygame. The game features a player-controlled ship that can move left, right, and shoot at aliens that appear from the top of the screen.
+This is a basic implementation of the classic game "Alien Invasion" using Python and pygame. The game features a player-controlled ship that can move left, right, and shoot at aliens that appear from the top of the screen.
 
 ## Project Structure
 
@@ -26,7 +26,7 @@ This is a basic implementation of the classic game "Alien Invasion" using Python
 ## Features
 
 - **Ship Movement**: The player can move the ship left and right using the arrow keys.
-- **Shooting**: The player can shoot bullets at aliens using the spacebar.
+- **Shooting**: The player can shoot bullets at aliens using the space-bar.
 
 ## Next Steps
 
