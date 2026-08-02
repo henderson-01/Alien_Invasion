@@ -10,6 +10,7 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
 - `bullet.py`: Contains the `Bullet` class which manages bullet movement and rendering.
 - `settings.py`: Contains all settings for the game, such as screen dimensions, colors, and speeds.
 - `game_stats.py`: Contains the `GameStats` class which tracks game statistics like `ships_left`.
+- `scoreboard.py`: Contains the `Scoreboard` class which displays the score, level, and remaining ships.
 
 ## How to Run
 
@@ -37,6 +38,8 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
   - Aliens destroy the ship if they reach the bottom of the screen.
 - **Game Statistics**: The game tracks the number of remaining ships (`ships_left`).
 - **Game Over**: When all ships are lost, the game stops.
+- **Scoreboard**: Keeping track of your high scores.
+- **Life's**: You can now see there is three ships representing you get three lives.
 
 ## Controls
 
@@ -46,9 +49,6 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
 
 ## Next Steps
 
-- Add a start screen and a way to restart the game after game over.
-- Add scoring and high scores.
-- Add sound effects and background music.
-- Improve graphics and animations.
+- Make some further improvements to the overall game. Possibly a JSON file for saving the game stats and maybe adding an option for a user's create a username to save their high scores to their username as an ID variable.
 
 Happy Coding!

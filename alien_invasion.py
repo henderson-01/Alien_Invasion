@@ -25,11 +25,11 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
         # Create an instance to store game statistics.
-        self.stats = GameStats(self)
-        self.sb = Scoreboard(self)
-        self.ship = Ship(self)
-        self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
+        self.stats: GameStats = GameStats(self)
+        self.sb: Scoreboard = Scoreboard(self)
+        self.ship: Ship = Ship(self)
+        self.bullets: pygame.sprite.Group = pygame.sprite.Group()
+        self.aliens: pygame.sprite.Group = pygame.sprite.Group()
         self._create_fleet()
         # Start alien invasion in an inactive state.
         self.game_active = False
@@ -89,6 +89,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
             self.game_active = True
             # Get rid of any remaining bullets and aliens.
             self.bullets.empty()
@@ -143,6 +144,7 @@ class AlienInvasion:
         self.aliens.update()
 
         # Look for alien-ship collisions.
+        # noinspection PyTypeChecker
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
         # Look for aliens hitting the bottom of the screen.
@@ -182,9 +184,10 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
-        if set.stats.ships_left > 0:
-            # Decrement ships_left.
+        if self.stats.ships_left > 0:
+            # Decrement ships_left, and update scoreboard.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
             # Get rid of any remaining bullets and aliens.
             self.bullets.empty()
             self.aliens.empty()
@@ -231,4 +234,4 @@ if __name__ == "__main__":
     ai = AlienInvasion()
     ai.run_game()
 
-# Ending top of page of 296
+# Ending page of 299
