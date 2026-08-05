@@ -1,3 +1,6 @@
+from high_score_manager import load_high_score
+
+
 class GameStats:
     """Track statistics for alien Invasion."""
 
@@ -9,7 +12,7 @@ class GameStats:
         self.settings = ai_game.settings
         self.reset_stats()
         # High score should never be reset.
-        self.high_score = 0
+        self.high_score = load_high_score()
 
     def reset_stats(self):
         """Initialize statistics that can change during the game."""
