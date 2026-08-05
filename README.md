@@ -2,6 +2,8 @@
 
 This is a fully functional implementation of the classic game "Alien Invasion" using Python and `pygame`. The game features a player-controlled ship that can move left, right, and shoot at aliens that appear from the top of the screen.
 
+This was made as part of my learning journey from the Python Crash course by Eric Mathews. **Progress ongoing.**
+
 ## Project Structure
 
 - `alien_invasion.py`: Main game file. Contains the `AlienInvasion` class which manages the game loop, events, and rendering.
@@ -12,6 +14,7 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
 - `game_stats.py`: Contains the `GameStats` class which tracks game statistics like `ships_left`, `score`, and `level`.
 - `scoreboard.py`: Contains the `Scoreboard` class which displays the score, level, high score, and remaining ships.
 - `button.py`: Contains the `Button` class used for the "Play" button on the start screen.
+- `high_score_manager.py`: Contains the creation of the `high_score_json` file.
 
 ## How to Run
 
@@ -42,6 +45,7 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
 - **Scoreboard**: Displays the current score, high score, level, and remaining ships.
 - **Lives**: The game starts with 3 lives, represented by ship icons on the scoreboard.
 - **Progression**: As you clear waves of aliens, the game speed increases, and the point value for each alien increases.
+- **High Score**: Is now added to project, so every time we start the game, the high score will be present.
 
 ## Controls
 
@@ -52,15 +56,11 @@ This is a fully functional implementation of the classic game "Alien Invasion" u
 
 ## Next Steps
 
-- **High Score Persistence**: Currently, the high score resets when the game closes. Implement a JSON file to save and load high scores between sessions.
 - **User Profiles**: Add an option for users to create a username to save their high scores to a specific profile.
 - **Visual Assets**: Replace the basic shapes/placeholder images with custom sprites for the ship, aliens, and background.
 - **Sound Effects**: Add sound effects for shooting, explosions, and background music.
 
+### Back over the TODO's 
+- **Project**: Now that we have the base game built, we need to go back through the books project build and look at trying to implement as many of the try-it-yourself inside the project as possible.
+
 Happy Coding!
-
-## TODO
-
-Build new branch with some extras and updates.
-Maybe add a local JSON to store high score levels.
-Also add away for users to create a username to store against the high scores.
