@@ -7,6 +7,7 @@ from alien import Alien
 from bullet import Bullet
 from button import Button
 from game_stats import GameStats
+from high_score_manager import save_high_score
 from scoreboard import Scoreboard
 from settings import Settings
 from ship import Ship
@@ -52,6 +53,7 @@ class AlienInvasion:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                save_high_score(self.stats.high_score)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -68,6 +70,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
+            save_high_score(self.stats.high_score)
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -127,7 +130,7 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
-            self.sb.check_high_score()  # Changed to if issues. self.sb.prep_high_score()
+            self.sb.check_high_score()
 
         if not self.aliens:
             # Destroy exciting bullets and create new fleet.
@@ -144,8 +147,7 @@ class AlienInvasion:
         self.aliens.update()
 
         # Look for alien-ship collisions.
-        # noinspection PyTypeChecker
-        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+        if pygame.sprite.spritecollideany(self.ship, self.aliens): # type:ignore
             self._ship_hit()
         # Look for aliens hitting the bottom of the screen.
         self._check_aliens_bottom()
