@@ -6,8 +6,9 @@ import pygame
 from alien import Alien
 from bullet import Bullet
 from button import Button
+from dropdown import Dropdown
 from game_stats import GameStats
-from high_score_manager import save_high_score
+from high_score_manager import load_all_scores, load_user_high_score, save_high_score
 from scoreboard import Scoreboard
 from settings import Settings
 from ship import Ship
@@ -34,6 +35,10 @@ class AlienInvasion:
         self._create_fleet()
         # Start alien invasion in an inactive state.
         self.game_active = False
+        self.game_state = 'MENU'
+        self.user_name_input = ""
+        self.dropdown = None
+        self.font = pygame.font.SysFont(None, 48)
         # Make the play button.
         self.play_button = Button(self, "Play")
 
@@ -53,15 +58,23 @@ class AlienInvasion:
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                save_high_score(self.stats.high_score)
+                save_high_score(self.stats.score, self.user_name_input)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                self._check_keydown_events(event)
+                if self.game_state == 'NAME_INPUT':
+                    self._handle_name_input(event)
+                else:
+                    self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+                if self.game_state == 'MENU':
+                    self._check_play_button(mouse_pos)
+                elif self.game_state == 'NAME_INPUT' and self.dropdown is not None:
+                    selected = self.dropdown.handle_mouse_click(mouse_pos)
+                    if selected >= 0:
+                        self.user_name_input = self.dropdown.options[selected]
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
@@ -70,7 +83,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
-            save_high_score(self.stats.high_score)
+            save_high_score(self.stats.score, self.user_name_input)
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -83,25 +96,103 @@ class AlienInvasion:
             self.ship.moving_left = False
 
     def _check_play_button(self, mouse_pos):
-        """Start a new game when the player clicks play."""
+        """Transition to name input state when the play button is clicked."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
-            # Reset the game settings.
-            self.settings.initialize_dynamic_settings()
-            # Reset the game statistics.
-            self.stats.reset_stats()
-            self.sb.prep_score()
-            self.sb.prep_level()
-            self.sb.prep_ships()
-            self.game_active = True
-            # Get rid of any remaining bullets and aliens.
-            self.bullets.empty()
-            self.aliens.empty()
-            # Create a new fleet and center the ship.
-            self._create_fleet()
-            self.ship.center_ship()
-            # Hide the mouse cursor.
-            pygame.mouse.set_visible(False)
+            self._prepare_dropdown()
+            self.game_state = 'NAME_INPUT'
+
+    def _prepare_dropdown(self):
+        """Rebuild the dropdown from the currently saved usernames."""
+        users = sorted(load_all_scores().keys())
+        rect = pygame.Rect(0, 0, 400, 40)
+        rect.center = (self.settings.screen_width // 2, self.settings.screen_height // 2 + 85)
+        self.dropdown = Dropdown(self, users, rect) if users else None
+
+    def _start_game(self):
+        """Reset game state and start the gameplay."""
+        # Reset the game settings.
+        self.settings.initialize_dynamic_settings()
+        # Reset the game statistics.
+        self.stats.reset_stats()
+        self.sb.prep_score()
+        self.sb.prep_level()
+        self.sb.prep_ships()
+        self.stats.high_score = load_user_high_score(self.user_name_input)
+        self.sb.prep_high_score()
+        self.game_active = True
+        self.game_state = 'GAMEPLAY'
+        # Get rid of any remaining bullets and aliens.
+        self.bullets.empty()
+        self.aliens.empty()
+        # Create a new fleet and center the ship.
+        self._create_fleet()
+        self.ship.center_ship()
+        # Hide the mouse cursor.
+        pygame.mouse.set_visible(False)
+
+    def _handle_name_input(self, event):
+        """Handle keyboard input for the username."""
+        if (self.dropdown is not None and self.dropdown.expanded
+                and self.dropdown.handle_keydown(event)):
+            if event.key == pygame.K_RETURN:
+                selected = self.dropdown.selected_value()
+                if selected is not None:
+                    self.user_name_input = selected
+            return
+        if event.key == pygame.K_RETURN:
+            if not self.user_name_input.strip():
+                # Default to 'Player' if no name is entered.
+                self.user_name_input = "Player"
+            self._start_game()
+        elif event.key == pygame.K_BACKSPACE:
+            self.user_name_input = self.user_name_input[:-1]
+        elif event.key == pygame.K_ESCAPE:
+            # Allow the player to go back to the menu.
+            self.game_state = 'MENU'
+        else:
+            # Only allow print characters.
+            if event.unicode.isprintable() and len(self.user_name_input) < 15:
+                self.user_name_input += event.unicode
+
+    def _draw_name_input_screen(self):
+        """Draw a clean, well-aligned username input screen."""
+        self.screen.fill(self.settings.bg_color)
+
+        # Prompt Title
+        prompt_img = self.font.render("Enter Username:", True, (30, 30, 30))
+        prompt_rect = prompt_img.get_rect(
+            center=(self.settings.screen_width // 2, self.settings.screen_height // 2 - 110)
+        )
+        self.screen.blit(prompt_img, prompt_rect)
+
+        # Input Box (Crisp white box with dark border)
+        box_width, box_height = 400, 50
+        box_rect = pygame.Rect(0, 0, box_width, box_height)
+        box_rect.center = (self.settings.screen_width // 2, self.settings.screen_height // 2 - 35)
+        
+        pygame.draw.rect(self.screen, (255, 255, 255), box_rect, border_radius=6)
+        pygame.draw.rect(self.screen, (50, 50, 50), box_rect, 2, border_radius=6)
+
+        # Text & Blinking Cursor
+        cursor = "_" if (pygame.time.get_ticks() // 500) % 2 == 0 else " "
+        display_text = self.user_name_input + cursor
+        
+        text_img = self.font.render(display_text, True, (0, 0, 0))
+        text_rect = text_img.get_rect(center=box_rect.center)
+        self.screen.blit(text_img, text_rect)
+
+        # Dropdown for returning players
+        if self.dropdown is not None:
+            self.dropdown.draw()
+
+        # Instruction Hints
+        sub_font = pygame.font.SysFont(None, 28)
+        hint_img = sub_font.render("Press ENTER to Start  |  ESC to Cancel", True, (100, 100, 100))
+        hint_rect = hint_img.get_rect(
+            center=(self.settings.screen_width // 2, self.settings.screen_height // 2 + 150)
+        )
+        self.screen.blit(hint_img, hint_rect)
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
@@ -133,7 +224,7 @@ class AlienInvasion:
             self.sb.check_high_score()
 
         if not self.aliens:
-            # Destroy exciting bullets and create new fleet.
+            # Destroy existing bullets and create a new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
@@ -179,7 +270,7 @@ class AlienInvasion:
     def _check_aliens_bottom(self):
         """Check if any aliens have reached the bottom of the screen."""
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= self.settings.screen_height:
+            if alien.rect.bottom >= self.screen.get_rect().height:
                 # Treat this the same as if the ship got hit.
                 self._ship_hit()
                 break
@@ -200,6 +291,8 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            self.game_state = 'MENU'
+            save_high_score(self.stats.score, self.user_name_input)
             pygame.mouse.set_visible(True)
 
     def _check_fleet_edges(self):
@@ -224,9 +317,12 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
         # Draw the score information.
         self.sb.show_score()
-        # Draw the play button if the game is inactive.
+        # Draw UI based on state.
         if not self.game_active:
-            self.play_button.draw_button()
+            if self.game_state == 'MENU':
+                self.play_button.draw_button()
+            elif self.game_state == 'NAME_INPUT':
+                self._draw_name_input_screen()
 
         pygame.display.flip()
 
@@ -235,5 +331,3 @@ if __name__ == "__main__":
     # Make a game instance, and run the game.
     ai = AlienInvasion()
     ai.run_game()
-
-# Ending page of 299
