@@ -1,88 +1,322 @@
-# --- Python Caches & Compiled files ---
+#-------------------------------------------------------------------#
+# Universal .gitignore
+# Modern Developer Edition
+#
+# Suitable for:
+# - Python          - JavaScript / TypeScript  - HTML / CSS
+# - Node.js / Bun   - Bash / Shell             - Docker
+# - Go              - Rust                     - Java / Kotlin
+# - C / C++         - C# / .NET                - PHP
+# - Ruby            - Lua                      - AI Development
+#-------------------------------------------------------------------#
+
+#---------------------------#
+# 🚨 Secrets & Credentials
+#---------------------------#
+
+.env
+.env.*
+.envrc
+.direnv/
+
+# Keys and Certificates
+*.pem
+*.key
+*.crt
+*.cer
+*.csr
+*.p12
+*.pfx
+*.der
+*.jks
+*.keystore
+*.rsa
+*.ed25519
+id_rsa
+id_rsa.pub
+
+#---------------------------#
+# 🏗️ Generic Build Outputs
+#---------------------------#
+
+build/
+dist/
+site/
+out/
+.out/
+
+# Note: We do NOT ignore the raw 'bin/' directory globally because
+# Node.js, Ruby, and Python often use it for source CLI scripts.
+# If you use Go and want to ignore your binary output folder, uncomment:
+# bin/
+
+#---------------------------#
+# 🐍 Python
+#---------------------------#
+
 __pycache__/
-.pyright-cache/
 *.py[cod]
 *$py.class
 *.so
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Type Checking
+.pytype/
+.pyre/
 .ruff_cache/
 .mypy_cache/
-.pdm-python
+.pyright/
+.pyright-cache/
+.dmypy.json
+.pyre_configuration.local
 
-# --- Virtual Environments & Secrets ---
+# Environments
 venv/
 .venv/
 env/
-.env
-.env.*
-# Backup folders created by some Linux tools
-[Bb]ackup/
-
-# --- Distribution / Build ---
-dist/
-build/
-*.egg-info/
-*.egg
-.hatch
-
-# --- Logs & Databases ---
-*.log
-*.sqlite
-*.db
-
-# --- Type Checking & CI --- 
-.dmypy.json
-cdy.json
-
-# --- Testing & Coverage ---
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-
-# --- Jupyter / IPython ---
+ENV/
 .ipynb_checkpoints/
 
-# --- Markdownlint ---
+# Package Managers
+.pdm-python
+.pdm-build/
+.hatch/
+.hatch_build/
+.poetry/
+.pixi/
+*.egg
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+#-----------------------------------#
+# 🟨 Node / JavaScript / TypeScript
+#-----------------------------------#
+
+node_modules/
+coverage/
+
+# Package Managers
+.npm/
+.pnpm-store/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/install-state.gz
+.yarn/build-state.yml
+.bun/
+
+# Frameworks & Bundlers
+.next/
+.nuxt/
+.svelte-kit/
+.parcel-cache/
+.turbo/
+.vite/
+
+#---------------------------#
+# 🦀 Rust
+#---------------------------#
+
+target/
+
+#---------------------------#
+# 🐹 Go
+#---------------------------#
+
+.coverprofile
+
+#---------------------------#
+# ☕ Java / Kotlin
+#---------------------------#
+
+.gradle/
+*.class
+*.jar
+*.war
+*.ear
+
+#---------------------------#
+# ⚙️ C / C++
+#---------------------------#
+
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.dylib
+*.exe
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+
+#---------------------------#
+# 🔷 C# / .NET
+#---------------------------#
+
+[Bb]in/Debug/
+[Bb]in/Release/
+[Oo]bj/
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+#---------------------------#
+# 🐘 PHP
+#---------------------------#
+
+vendor/
+
+#---------------------------#
+# 💎 Ruby
+#---------------------------#
+
+.bundle/
+
+#---------------------------#
+# 🤖 AI Coding Assistants
+#---------------------------#
+
+.opencode/
+.continue/
+.continueignore
+.aider*
+.cursor/
+.claude/
+.windsurf/
+.augment/
+
+#---------------------------#
+# 🐳 Docker
+#---------------------------#
+
+.docker/
+docker-compose.override.yml
+
+#---------------------------#
+# 📝 Databases & Logs
+#---------------------------#
+
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+#---------------------------#
+# 💻 Editors & IDEs
+#---------------------------#
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+# (settings.json remains ignored to prevent leaking personal paths)
+
+# JetBrains / IntelliJ
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Documentation
+docs/_build/
 .markdownlint_cache/
 .markdownlint-cli2/
 
-# Continue AI local settings & history
-.continue/
-.continueignore
+#---------------------------#
+# 🖥️ Operating Systems
+#---------------------------#
 
-# --- AI Tools & Assistants ---
-.opencode/
-
-# --- Node / Frontend ---
-node_modules/
-.npm/
-
-# --- System / OS ---
+# macOS
 .DS_Store
-.directory
-.nfs*
-.fuse_hidden*
-*.swp
-*~
-.Trash-*
-Thumbs.db
 .AppleDouble
 .LSOverride
 ._*
 
-# --- VS Code ---
-.vscode/*
-!.vscode/launch.json
-!.vscode/tasks.json
-!.vscode/extensions.json
-*.code-workspace
+# Linux
+.directory
+.nfs*
+.fuse_hidden*
+.Trash-*
 
-# --- JetBrains (PyCharm, etc.) ---
-.idea/
+# Windows
+Thumbs.db
+Desktop.ini
 
-# --- Bash ---
+#---------------------------#
+# 🗑️ Temp & Archives
+#---------------------------#
+
+# Temp Files
+*.tmp
+*.temp
 *.bak
 *.orig
+*.old
+*.save
+.cache/
+.cache-loader/
+.eslintcache
+.stylelintcache
 
-# --- Docker ---
-.docker/
+# Archives
+*.zip
+*.tar
+*.gz
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Backups
+[Bb]ackup/
+[Bb]ackups/
+
+
+#---------------------------------------#
+# ✅ Things INTENTIONALLY NOT ignored
+#
+# package.json
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# bun.lockb
+#
+# .python-version
+# pyproject.toml
+# poetry.lock
+# uv.lock
+#
+# Cargo.toml
+# Cargo.lock
+#
+# go.mod
+# go.sum
+#
+# Dockerfile
+# docker-compose.yml
+#
+# Makefile
+# CMakeLists.txt
+# README.md
+# LICENSE
+#---------------------------------------#
