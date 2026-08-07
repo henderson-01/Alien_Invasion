@@ -26,6 +26,9 @@ class Settings:
         self.speedup_scale = 1.1
         # How quickly the alien point values increase.
         self.score_scale = 1.5
+        # Sound settings.
+        self.sound_volume = 0.5
+        self.sounds_enabled = True
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
