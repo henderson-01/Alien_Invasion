@@ -2,9 +2,9 @@
 
 This is a fully functional implementation of the classic game "Alien Invasion" using Python and `pygame`. The game features a player-controlled ship that can move left, right, and shoot at 👾 aliens that appear from the top of the screen.
 
-This was made as part of my learning journey from the Python Crash course by Eric Mathews. **Progress ongoing.**
+This was made as part of my learning journey from the Python Crash course by Eric Mathews. Sound effects and gameplay polish complete.
 
-**🛑🛑 STOP: I am not accepting Merges/PR's to this project 🛑🛑**  → → → → → → → → → → → → ⬆️
+**🛑🛑 STOP: I am not accepting Merges/PR's to this project 🛑🛑** 
 
 ## 📂 Project Structure
 
@@ -48,6 +48,9 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **🏆 Scoreboard**: Displays the current score, high score, level, and remaining ships.
 - **❤️ Lives**: The game starts with 3 lives, represented by ship icons on the scoreboard.
 - **📈 Progression**: As you clear waves of aliens, the game speed increases, and the point value for each alien increases.
+- **🔊 Sound Effects**: Shooting and explosion sound effects with configurable volume.
+- **🖼️ Background**: Custom background image scaled to screen.
+- **📐 Zigzag Formation**: Aliens spawn in a staggered grid pattern for a more dynamic look.
 - **👤 User Profiles**: Players are prompted to create or select a username before the game starts.
 - **📋 Profile Dropdown**: Returning players can select their saved username from a dropdown instead of retyping it (click to open, arrow keys to navigate, Enter to select).
 - **💾 Per-User High Scores**: High scores are saved and loaded per username. The menu shows the global top score, and during play it shows the current player's personal best.
@@ -61,9 +64,7 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **❌ Q**: Quit the game.
 
 ## 🔜 Next Steps
-- **Press p to play q to quit**: Implement a way to press P to play/start game and q/quit game.
-- **🎨 Visual Assets**: Replace the basic shapes/placeholder images with custom sprites for the ship, aliens, and background.
-- **🔊 Sound Effects**: Add sound effects for shooting, explosions, and background music from Python Library.
+
 - **📜 Leaderboard**: Add a screen showing the top scores across all users.
 
 ### Back over the TODO's 
