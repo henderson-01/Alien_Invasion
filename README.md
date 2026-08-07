@@ -61,9 +61,9 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **❌ Q**: Quit the game.
 
 ## 🔜 Next Steps
-
+- **Press p to play q to quit**: Implement a way to press P to play/start game and q/quit game.
 - **🎨 Visual Assets**: Replace the basic shapes/placeholder images with custom sprites for the ship, aliens, and background.
-- **🔊 Sound Effects**: Add sound effects for shooting, explosions, and background music.
+- **🔊 Sound Effects**: Add sound effects for shooting, explosions, and background music from Python Library.
 - **📜 Leaderboard**: Add a screen showing the top scores across all users.
 
 ### Back over the TODO's 
