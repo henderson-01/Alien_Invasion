@@ -2,6 +2,7 @@ import sys
 from time import sleep
 
 import pygame
+import pygame.mixer
 
 from alien import Alien
 from bullet import Bullet
@@ -20,6 +21,7 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game, and create game resources."""
         pygame.init()
+        pygame.mixer.init()
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((800, 600))
@@ -29,6 +31,12 @@ class AlienInvasion:
         self.background = pygame.transform.scale(
             self.background, (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
+        # Load sound effects.
+        self.shoot_sound = pygame.mixer.Sound('sounds/shoot.wav')
+        self.explosion_sound = pygame.mixer.Sound('sounds/explosion.wav')
+        self.shoot_sound.set_volume(self.settings.sound_volume)
+        self.explosion_sound.set_volume(self.settings.sound_volume)
+        self._explosion_channel = None
         # Create an instance to store game statistics.
         self.stats: GameStats = GameStats(self)
         self.sb: Scoreboard = Scoreboard(self)
@@ -202,6 +210,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            self.shoot_sound.play()
 
     def _update_bullets(self):
         """Update position of the bullets and get rid of the old bullets."""
@@ -221,6 +230,8 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.aliens, self.bullets, True, True)
 
         if collisions:
+            if self.settings.sounds_enabled:
+                self._explosion_channel = self.explosion_sound.play()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
