@@ -25,6 +25,9 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((800, 600))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+        self.background = pygame.image.load('images/background.png').convert()
+        self.background = pygame.transform.scale(
+            self.background, (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
         # Create an instance to store game statistics.
         self.stats: GameStats = GameStats(self)
@@ -157,7 +160,7 @@ class AlienInvasion:
 
     def _draw_name_input_screen(self):
         """Draw a clean, well-aligned username input screen."""
-        self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.background, (0, 0))
 
         # Prompt Title
         prompt_img = self.font.render("Enter Username:", True, (30, 30, 30))
@@ -250,14 +253,17 @@ class AlienInvasion:
         alien = Alien(self)
         alien_width = alien.rect.width
         alien_height = alien.rect.height
-        current_x, current_y = alien_width, alien_height
-        while current_y < (self.settings.screen_height - 3 * alien_height):
-            while current_x < (self.settings.screen_width - 2 * alien_width):
+
+        # Create exactly 3 rows.
+        for row_number in range(3):
+            # Zigzag logic: offset even rows.
+            offset = (alien_width / 2) if row_number % 2 == 1 else 0
+            current_x = alien_width + offset
+            current_y = alien_height + (row_number * 1.5 * alien_height)
+            
+            while current_x < (self.settings.screen_width - 1.5 * alien_width):
                 self._create_alien(current_x, current_y)
-                current_x += 2 * alien_width
-            # Finished a row; reset x value, and increment y value.
-            current_x = alien_width
-            current_y += 2 * alien_height
+                current_x += 1.5 * alien_width
 
     def _create_alien(self, x_position, y_position):
         """Create an alien and place it in the fleet."""
@@ -310,7 +316,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         """Update image on the screen, and flip to the new screen."""
-        self.screen.fill(self.settings.bg_color)
+        self.screen.blit(self.background, (0, 0))
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
