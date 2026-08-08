@@ -171,7 +171,7 @@ class AlienInvasion:
         self.screen.blit(self.background, (0, 0))
 
         # Prompt Title
-        prompt_img = self.font.render("Enter Username:", True, (30, 30, 30))
+        prompt_img = self.font.render("Enter Username:", True, (255, 255, 255))
         prompt_rect = prompt_img.get_rect(
             center=(self.settings.screen_width // 2, self.settings.screen_height // 2 - 110)
         )
@@ -199,7 +199,7 @@ class AlienInvasion:
 
         # Instruction Hints
         sub_font = pygame.font.SysFont(None, 28)
-        hint_img = sub_font.render("Press ENTER to Start  |  ESC to Cancel", True, (100, 100, 100))
+        hint_img = sub_font.render("Press ENTER to Start  |  ESC to Cancel", True, (255, 255, 255))
         hint_rect = hint_img.get_rect(
             center=(self.settings.screen_width // 2, self.settings.screen_height // 2 + 150)
         )
