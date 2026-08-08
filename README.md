@@ -54,18 +54,17 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **👤 User Profiles**: Players are prompted to create or select a username before the game starts.
 - **📋 Profile Dropdown**: Returning players can select their saved username from a dropdown instead of retyping it (click to open, arrow keys to navigate, Enter to select).
 - **💾 Per-User High Scores**: High scores are saved and loaded per username. The menu shows the global top score, and during play it shows the current player's personal best.
+- **🏆 Top Scores Leaderboard**: Dedicated leaderboard screen showing the top 5 high scores across all users, accessible via the dark blue "Top Scores" button on the main menu.
 
 ## 🎮 Controls
 
 - **⬅️/➡️ Left/Right Arrow Keys**: Move the ship.
 - **⎵ Space-bar**: Fire a bullet.
-- **🖱️ Mouse Click**: Click "Play" to open the name entry screen.
+- **🖱️ Menu Navigation**: Click "Play" to start a game or "Top Scores" to view the top 5 leaderboard (press **ESC** or click to return to the menu).
 - **✍️ Name Entry Screen**: Type a username (Backspace to edit, up to 15 characters) or select one from the dropdown. Press **Enter** to start, **ESC** to return to the menu.
 - **❌ Q**: Quit the game.
 
 ## 🔜 Next Steps
-
-- **📜 Leaderboard**: Add a screen showing the top scores across all users.
 
 ### Back over the TODO's 
 - **🛠️ Project**: Now that we have the base game built, we need to go back through the books project build and look at trying to implement as many of the try-it-yourself inside the project as possible.
