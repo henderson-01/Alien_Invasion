@@ -50,8 +50,13 @@ class AlienInvasion:
         self.user_name_input = ""
         self.dropdown = None
         self.font = pygame.font.SysFont(None, 48)
-        # Make the play button.
+        # Make the play button and top scores button.
         self.play_button = Button(self, "Play")
+        self.top_scores_button = Button(self, "Top Scores", button_color=(0, 0, 139))
+        self.play_button.rect.centery -= 35
+        self.play_button.msg_image_rect.center = self.play_button.rect.center
+        self.top_scores_button.rect.centery += 35
+        self.top_scores_button.msg_image_rect.center = self.top_scores_button.rect.center
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -74,6 +79,9 @@ class AlienInvasion:
             elif event.type == pygame.KEYDOWN:
                 if self.game_state == 'NAME_INPUT':
                     self._handle_name_input(event)
+                elif self.game_state == 'LEADERBOARD':
+                    if event.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_q):
+                        self.game_state = 'MENU'
                 else:
                     self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -81,7 +89,9 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.game_state == 'MENU':
-                    self._check_play_button(mouse_pos)
+                    self._check_menu_buttons(mouse_pos)
+                elif self.game_state == 'LEADERBOARD':
+                    self.game_state = 'MENU'
                 elif self.game_state == 'NAME_INPUT' and self.dropdown is not None:
                     selected = self.dropdown.handle_mouse_click(mouse_pos)
                     if selected >= 0:
@@ -106,12 +116,15 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
-    def _check_play_button(self, mouse_pos):
-        """Transition to name input state when the play button is clicked."""
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.game_active:
+    def _check_menu_buttons(self, mouse_pos):
+        """Respond to menu button clicks."""
+        play_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        top_scores_clicked = self.top_scores_button.rect.collidepoint(mouse_pos)
+        if play_clicked and not self.game_active:
             self._prepare_dropdown()
             self.game_state = 'NAME_INPUT'
+        elif top_scores_clicked and not self.game_active:
+            self.game_state = 'LEADERBOARD'
 
     def _prepare_dropdown(self):
         """Rebuild the dropdown from the currently saved usernames."""
@@ -325,6 +338,53 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
+    def _draw_leaderboard_screen(self):
+        """Draw the top 5 high scores leaderboard screen."""
+        self.screen.blit(self.background, (0, 0))
+
+        # Title
+        title_img = self.font.render("Top Scores", True, (255, 255, 255))
+        title_rect = title_img.get_rect(
+            center=(self.settings.screen_width // 2, 90)
+        )
+        self.screen.blit(title_img, title_rect)
+
+        # Load and sort scores
+        scores = load_all_scores()
+        valid_scores = [(name, score) for name, score in scores.items() if name.strip()]
+        sorted_scores = sorted(valid_scores, key=lambda x: x[1], reverse=True)[:5]
+
+        sub_font = pygame.font.SysFont(None, 36)
+        start_y = 170
+        for i, (name, score) in enumerate(sorted_scores):
+            row_y = start_y + i * 55
+
+            rank_img = sub_font.render(f"{i + 1}.", True, (255, 255, 0))
+            name_img = sub_font.render(name, True, (255, 255, 255))
+            score_img = sub_font.render(f"{score:,}", True, (0, 255, 0))
+
+            rank_rect = rank_img.get_rect(topleft=(self.settings.screen_width // 2 - 160, row_y))
+            name_rect = name_img.get_rect(topleft=(self.settings.screen_width // 2 - 100, row_y))
+            score_rect = score_img.get_rect(topright=(self.settings.screen_width // 2 + 160, row_y))
+
+            self.screen.blit(rank_img, rank_rect)
+            self.screen.blit(name_img, name_rect)
+            self.screen.blit(score_img, score_rect)
+
+        if not sorted_scores:
+            no_scores_img = sub_font.render("No scores recorded yet!", True, (200, 200, 200))
+            no_scores_rect = no_scores_img.get_rect(
+                center=(self.settings.screen_width // 2, self.settings.screen_height // 2)
+            )
+            self.screen.blit(no_scores_img, no_scores_rect)
+
+        # Instruction Hint
+        hint_img = sub_font.render("Press ESC to Return to Menu", True, (200, 200, 200))
+        hint_rect = hint_img.get_rect(
+            center=(self.settings.screen_width // 2, self.settings.screen_height - 60)
+        )
+        self.screen.blit(hint_img, hint_rect)
+
     def _update_screen(self):
         """Update image on the screen, and flip to the new screen."""
         self.screen.blit(self.background, (0, 0))
@@ -338,8 +398,11 @@ class AlienInvasion:
         if not self.game_active:
             if self.game_state == 'MENU':
                 self.play_button.draw_button()
+                self.top_scores_button.draw_button()
             elif self.game_state == 'NAME_INPUT':
                 self._draw_name_input_screen()
+            elif self.game_state == 'LEADERBOARD':
+                self._draw_leaderboard_screen()
 
         pygame.display.flip()
 
