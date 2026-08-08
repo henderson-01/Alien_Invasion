@@ -64,8 +64,6 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **✍️ Name Entry Screen**: Type a username (Backspace to edit, up to 15 characters) or select one from the dropdown. Press **Enter** to start, **ESC** to return to the menu.
 - **❌ Q**: Quit the game.
 
-## 🔜 Next Steps
-
 ### Back over the TODO's 
 - **🛠️ Project**: Now that we have the base game built, we need to go back through the books project build and look at trying to implement as many of the try-it-yourself inside the project as possible.
 
