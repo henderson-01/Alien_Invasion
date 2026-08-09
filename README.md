@@ -67,4 +67,8 @@ This was made as part of my learning journey from the Python Crash course by Eri
 ### Back over the TODO's 
 - **🛠️ Project**: Now that we have the base game built, we need to go back through the books project build and look at trying to implement as many of the try-it-yourself inside the project as possible.
 
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 Still Coding! ⌨️
