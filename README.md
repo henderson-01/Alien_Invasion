@@ -2,7 +2,9 @@
 
 This is a fully functional implementation of the classic game "Alien Invasion" using Python and `pygame`. The game features a player-controlled ship that can move left, right, and shoot at 👾 aliens that appear from the top of the screen.
 
-This was made as part of my learning journey from the Python Crash course by Eric Mathews. Sound effects and gameplay polish complete.
+This was made as part of my learning journey from the **Python Crash course by Eric Matthews** Book. Sound effects and gameplay have been polished and is now complete I have made the updates I wanted to do within this build, I am now finished, Feel free to clone and use the code as you please.
+
+Images of Star-ship and Alien-ship were generated using Google Gemini to give the game a modern feel and the background is just a Google image of stars.
 
 **🛑🛑 STOP: I am not accepting Merges/PR's to this project 🛑🛑** 
 
@@ -64,11 +66,8 @@ This was made as part of my learning journey from the Python Crash course by Eri
 - **✍️ Name Entry Screen**: Type a username (Backspace to edit, up to 15 characters) or select one from the dropdown. Press **Enter** to start, **ESC** to return to the menu.
 - **❌ Q**: Quit the game.
 
-### Back over the TODO's 
-- **🛠️ Project**: Now that we have the base game built, we need to go back through the books project build and look at trying to implement as many of the try-it-yourself inside the project as possible.
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Still Coding! ⌨️
+Happy Coding! ⌨️
