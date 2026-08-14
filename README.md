@@ -21,6 +21,9 @@ Images of Star-ship and Alien-ship were generated using Google Gemini to give th
 - `dropdown.py`: Contains the `Dropdown` class used to pick a saved username on the name entry screen.
 - `high_score_manager.py`: Handles reading and writing per-user high scores to `high_score.json`.
 
+## Screenshot of Game start 
+![Screenshot](images/Screenshot.png)
+
 ## 🏃 How to Run
 
 1. Ensure you have Python installed on your system.
