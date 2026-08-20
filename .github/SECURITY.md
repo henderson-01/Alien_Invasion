@@ -31,8 +31,8 @@ To help us triage quickly, please include:
 
 This channel is for **security vulnerabilities only** (e.g. code execution, unsafe deserialization, or malicious dependency issues).
 
-- General bugs → open a [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md).
-- Feature ideas → open a [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md).
+- General bugs → open a [Bug Report](ISSUE_TEMPLATE/bug_report.md).
+- Feature ideas → open a [Feature Request](ISSUE_TEMPLATE/feature_request.md).
 - Questions or other discussion → please [open an issue](https://github.com/henderson-01/Alien_Invasion/issues).
 
 ## Supported Versions

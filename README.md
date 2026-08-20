@@ -10,7 +10,7 @@ Images of Star-ship and Alien-ship were generated using Google Gemini to give th
 
 Contributions are welcome! Whether it's a bug fix, a new feature, or a docs improvement, I'd love your help. Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide for details on getting started, code style, and how to submit a pull request.
 
-To report a security vulnerability, please follow the process in [SECURITY.md](SECURITY.md). 
+To report a security vulnerability, please follow the process in [SECURITY.md](.github/SECURITY.md). 
 
 ## 📂 Project Structure
 
