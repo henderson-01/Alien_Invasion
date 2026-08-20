@@ -6,7 +6,9 @@ This was made as part of my learning journey from the **Python Crash course by E
 
 Images of Star-ship and Alien-ship were generated using Google Gemini to give the game a modern feel and the background is just a Google image of stars.
 
-**🛑🛑 STOP: I am not accepting Merges/PR's to this project as it is part of my learning Journey 🛑🛑** 
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's a bug fix, a new feature, or a docs improvement, I'd love your help. Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide for details on getting started, code style, and how to submit a pull request. 
 
 ## 📂 Project Structure
 
