@@ -59,7 +59,7 @@ appointed representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by opening an issue in this repository (via the GitHub issue tracker).
+reported by contacting the project maintainers at [maintainer email/contact].
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

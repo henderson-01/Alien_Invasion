@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: Submit changes to the Alien Invasion project
-title: ""
-labels: ""
-assignees: ""
-
----
-
 ## Description
 
 <!-- Describe what you changed and why. Be concise but clear. -->
