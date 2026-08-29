@@ -77,25 +77,33 @@ class AlienInvasion:
                 save_high_score(self.stats.score, self.user_name_input)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if self.game_state == 'NAME_INPUT':
-                    self._handle_name_input(event)
-                elif self.game_state == 'LEADERBOARD':
-                    if event.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_q):
-                        self.game_state = 'MENU'
-                else:
-                    self._check_keydown_events(event)
+                self._handle_keydown_event(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                if self.game_state == 'MENU':
-                    self._check_menu_buttons(mouse_pos)
-                elif self.game_state == 'LEADERBOARD':
-                    self.game_state = 'MENU'
-                elif self.game_state == 'NAME_INPUT' and self.dropdown is not None:
-                    selected = self.dropdown.handle_mouse_click(mouse_pos)
-                    if selected >= 0:
-                        self.user_name_input = self.dropdown.options[selected]
+                self._handle_mouse_click_event()
+
+    def _handle_keydown_event(self, event):
+        """Respond to keydown events based on current game state."""
+        if self.game_state == 'NAME_INPUT':
+            self._handle_name_input(event)
+        elif self.game_state == 'LEADERBOARD':
+            if event.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_q):
+                self.game_state = 'MENU'
+        else:
+            self._check_keydown_events(event)
+
+    def _handle_mouse_click_event(self):
+        """Respond to mouse click events based on current game state."""
+        mouse_pos = pygame.mouse.get_pos()
+        if self.game_state == 'MENU':
+            self._check_menu_buttons(mouse_pos)
+        elif self.game_state == 'LEADERBOARD':
+            self.game_state = 'MENU'
+        elif self.game_state == 'NAME_INPUT' and self.dropdown is not None:
+            selected = self.dropdown.handle_mouse_click(mouse_pos)
+            if selected >= 0:
+                self.user_name_input = self.dropdown.options[selected]
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
@@ -157,12 +165,7 @@ class AlienInvasion:
 
     def _handle_name_input(self, event):
         """Handle keyboard input for the username."""
-        if (self.dropdown is not None and self.dropdown.expanded
-                and self.dropdown.handle_keydown(event)):
-            if event.key == pygame.K_RETURN:
-                selected = self.dropdown.selected_value()
-                if selected is not None:
-                    self.user_name_input = selected
+        if self._handle_dropdown_input(event):
             return
         if event.key == pygame.K_RETURN:
             if not self.user_name_input.strip():
@@ -176,8 +179,24 @@ class AlienInvasion:
             self.game_state = 'MENU'
         else:
             # Only allow print characters.
-            if event.unicode.isprintable() and len(self.user_name_input) < 15:
+            if self._is_valid_character_input(event.unicode):
                 self.user_name_input += event.unicode
+
+    def _handle_dropdown_input(self, event):
+        """Handle dropdown menu input. Returns True if event was handled."""
+        if self.dropdown is None or not self.dropdown.expanded:
+            return False
+        if not self.dropdown.handle_keydown(event):
+            return False
+        if event.key == pygame.K_RETURN:
+            selected = self.dropdown.selected_value()
+            if selected is not None:
+                self.user_name_input = selected
+        return True
+
+    def _is_valid_character_input(self, char):
+        """Check if character is valid for username input."""
+        return char.isprintable() and len(self.user_name_input) < 15
 
     def _draw_name_input_screen(self):
         """Draw a clean, well-aligned username input screen."""
